@@ -32,6 +32,11 @@ hop_size = samples_per_frame // 2
 samples_total = len(y)
 samples_wrote = 0
 
+
+#rms track amplitude
+rms = librosa.feature.rms(y=y, frame_length=samples_per_frame, hop_length=hop_size)[0]
+
+
 # Frequency bands in Hz
 bands = {
     "bass": (20, 250),
@@ -40,7 +45,7 @@ bands = {
     "high_mids": (2000, 6000),
     "treble": (6000, 20000)
 }
-
+frame_idx = 0
 while samples_wrote < samples_total:
     if samples_per_frame > (samples_total - samples_wrote):
         samples_per_frame = samples_total - samples_wrote
@@ -68,11 +73,13 @@ while samples_wrote < samples_total:
         # takes all fft magnitudes in the specific bin range and compute average
         #then stores in dictionary for that frequency band name.
 
-        amplitude = 
-
 
 
         print(band_values)
+    amplitude_rms_value = rms[frame_idx]
+    print(f"RMS: {amplitude_rms_value:.4f}, Bands: {band_values}")
 
     samples_wrote += hop_size
+    frame_idx +=1
+
 
